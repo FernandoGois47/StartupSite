@@ -1,0 +1,463 @@
+/* Reset básico: zera margens e preenchimentos de todos os elementos, e ajusta a caixa de modelo para border-box */
+* {
+    margin: 0;  /* Remove a margem padrão de todos os elementos */
+    padding: 0;  /* Remove o preenchimento padrão de todos os elementos */
+    box-sizing: border-box;  /* Garante que o padding e border sejam incluídos no cálculo da largura e altura dos elementos */
+}
+
+/* -----------------------------------------------------------------Estilo básico do body */
+body {
+    font-family: Arial, sans-serif;  /* Define a fonte padrão do corpo como Arial, ou sans-serif como alternativa */
+    color: #333;  /* Define a cor do texto como cinza escuro */
+}
+
+/* Estilos para a área de cabeçalho (header) */
+.header {
+    display: flex;  /* Usa flexbox para organizar os itens dentro do header */
+    justify-content: space-between;  /* Espalha os itens de forma que fiquem nas extremidades esquerda e direita */
+    align-items: center;  /* Alinha os itens verticalmente no centro */
+    padding: 20px;  /* Adiciona um espaço interno de 20px em todas as direções */
+    background-color: #fff;  /* Define o fundo do header como branco */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  /* Adiciona uma sombra suave abaixo do header */
+}
+
+/* Estilos para o logo dentro do header */
+.logo {
+    font-size: 24px;  /* Define o tamanho da fonte para o logo */
+    font-weight: bold;  /* Define o logo em negrito */
+    color: #007BFF;  /* Define a cor do logo como azul */
+}
+
+/* Estilos para o menu de navegação */
+.nav ul {
+    display: flex;  /* Usa flexbox para organizar os itens do menu horizontalmente */
+    list-style: none;  /* Remove a lista padrão de marcadores (bullets) */
+}
+
+.nav ul li {
+    margin-left: 20px;  /* Adiciona um espaço de 20px à esquerda de cada item do menu */
+}
+
+/* Estilos para os links de navegação */
+.nav ul li a {
+    text-decoration: none;  /* Remove o sublinhado dos links */
+    color: #333;  /* Define a cor do texto do link como cinza escuro */
+    font-weight: bold;  /* Define os links como negrito */
+    padding: 10px;  /* Adiciona um preenchimento de 10px em todas as direções */
+}
+
+/* Efeito de hover para os links de navegação */
+.nav ul li a:hover {
+    color: #000;
+}
+
+/* Estilos para o botão "Seja Tecnico" */
+.sejatec {
+    color: #fff; 
+    background-color: #FF5722;  
+    padding: 10px 15px;  
+    border-radius: 5px; 
+}
+
+/* Efeito de hover para o botão "Seja Tecnico" */
+.sejatec:hover {
+    background-color: #E64A19;  
+}
+.encontre {
+    color: #fff; 
+    background-color: #007BFF;  
+    padding: 10px 15px; 
+    border-radius: 5px; 
+}
+
+/*----------------------------------------------------------------- Efeito de hover para o botão "Seja Técnico" */
+.encontre:hover {
+    background-color: #0056b3;  
+}
+
+/* ------------------------------------------------------------------------------------Estilos para o banner */
+.banner {
+    background: url('../img/fundo_serviços.jpg') no-repeat center center/cover;  /* Define uma imagem de fundo que cobre toda a área do banner */
+    height: 100vh; 
+    color: #fff;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center; 
+    text-align: center;  
+    padding: 0 20px;
+    position: relative;  
+}
+
+/* ----------------------------------------------Pseudo-elemento para adicionar uma sobreposição escura no banner */
+.banner::before {
+    content: '';  
+    position: absolute; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; 
+    background: rgba(0, 0, 0, 0.5); 
+}
+
+/*---------------------------------------------------------------------- Estilos para o conteúdo dentro do banner */
+.banner-content {
+    position: relative;  /* Define o conteúdo como posicionado relativamente ao banner */
+    z-index: 1;  /* Garante que o conteúdo fique acima do pseudo-elemento de sobreposição */
+    max-width: 700px;  
+}
+
+/* Estilo do título dentro do banner */
+.banner h1 {
+    font-size: 48px;  
+    margin-bottom: 20px; 
+}
+
+/* Estilo do parágrafo dentro do banner */
+.banner p {
+    font-size: 20px;  
+    margin-bottom: 30px;  
+}
+
+/* Estilos para os botões dentro do banner */
+.buttons {
+    gap: 20px;  
+    align-items: center;
+}
+
+/* Estilos gerais para os botões */
+.btn {
+    text-decoration: none; 
+    font-weight: bold;  
+    padding: 15px 25px;  
+    border-radius: 5px;  
+}
+
+/* Estilos para o botão azul */
+.btn.blue {
+    background-color: #007BFF; 
+    color: #fff;  
+    margin: 5px;
+}
+
+/* ---------------------------------------------------------Efeito de hover para o botão azul */
+.btn.blue:hover {
+    background-color: #0056b3;  
+}
+
+/* Estilos para o botão laranja */
+.btn.orange {
+    background-color: #FF5722;  
+    color: #fff;  
+    margin: 5px;
+}
+
+/*-------------------------------------------------------- Efeito de hover para o botão laranja */
+.btn.orange:hover {
+    background-color: #E64A19; 
+}
+
+/* ---------------------------------------------Responsividade: ajustes para telas menores (máximo de 768px de largura) */
+@media (max-width: 768px) {
+    .banner h1 {
+        font-size: 32px; 
+    }
+
+    .banner p {
+        font-size: 16px; 
+    }
+
+    .nav ul {
+        flex-direction: column; 
+    }
+
+    .nav ul li {
+        margin-left: 0; 
+        margin-top: 10px; 
+    }
+}
+.logo img{
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0;
+}
+/* --------------------------------------footer----------------------------------------- */
+/* Estilos do Footer */
+.footer {
+    background-color: #333;  /* Cor de fundo escura para o rodapé */
+    color: #fff;  /* Texto branco */
+    padding: 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.footer .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.footer .links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer .links li {
+    margin: 10px 0;
+}
+
+.footer .links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.footer .copyright {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #bbb;  /* Texto mais suave */
+}
+/* --------------------------------------footer----------------------------------------- */
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+p {
+    text-align: justify;
+    font-family: Arial, Helvetica, sans-serif;
+}
+/* Sobre */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+main {
+    max-width: 960px; /* Define a largura máxima */
+    margin: 0 auto;   /* Centraliza horizontalmente */
+    padding: 20px;    /* Adiciona um espaço interno para não ficar colado nas bordas */
+    line-height: 1.6; /* Aumenta o espaçamento entre linhas para melhor leitura */
+    font-size: 16px;  /* Ajusta o tamanho da fonte */
+}
+section {
+    margin-bottom: 20px;
+}
+h1 {
+    text-align: center;
+}
+.divdalogo{
+    display: flex;
+    justify-content: center; /* Centraliza a imagem horizontalmente */
+    align-items: center; /* Centraliza a imagem verticalmente */
+    height: 200px; /* Altura fixa para a div */
+    width: 100%; /* A largura da div pode ser ajustada conforme necessário */
+    padding: 0; /* Remover padding extra */
+    margin: 0; /* Remover margens externas */
+}
+.logomarca {
+    max-height: 100%; /* A altura máxima será 100% da altura da div */
+    width: auto; /* A largura vai se ajustar automaticamente para manter a proporção */
+  }
+/* Missão, visão e Valores */
+.sections-container {
+    display: flex;
+    justify-content: space-between; /* Distribui igualmente as seções */
+    gap: 6px; /* Espaço entre as seções */
+    margin-bottom: 20px; /* Espaço abaixo das seções */
+
+}
+
+/* Estilo para cada seção (Missão, Visão, Valores) */
+.section-container {
+    background-color: #0a5694; /* Cor de fundo */
+    padding: 18px;
+    flex: 1; /* Garante que todas as seções tenham o mesmo tamanho */
+    min-width: 250px; /* Tamanho mínimo para evitar que as seções fiquem muito pequenas em telas menores */
+    border-radius: 8%;
+}
+
+.section-container h2 {
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+.section-container p, .section-container ul {
+    color: white;
+    font-size: 18px;
+
+}
+
+.section-container ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+/*------------------------------------------------- ESPAÇO DOS SERVIÇOS */
+
+.tecnicos {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .tecnicos h2 {
+    text-align: center;
+    color: #0a5694;
+    margin: 20px;
+  }
+  
+  .tecnico {
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tecnico img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .perfil {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px;
+  }
+  
+  .info h3 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .info p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .ver-perfil {
+    align-self: flex-start;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #0a5694;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .ver-perfil:hover {
+    background-color: #0a5694;
+  }
+  
+  /* ----------------------------------------------------------PERFIL DO TÉCNICO */
+
+  .portifolio {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tecnicoPortifolio .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .tecnicoPortifolio .header .logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .tecnicoPortifolio .header .detalhes {
+    flex: 1;
+  }
+  
+  .tecnicoPortifolio .header h2 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .botao-verde {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .botao-verde:hover {
+    background-color: #218838;
+  }
+  
+  .sobre, .classificacao, .avaliacoes {
+    margin-bottom: 20px;
+  }
+  
+  .sobre h3, .classificacao h3, .avaliacoes h3 {
+    margin-bottom: 10px;
+    color: #0a5694;
+  }
+  
+  .classificacao p {
+    margin: 5px 0;
+  }
+  
+  .estrelas {
+    color: #f4c542;
+  }
+  
+  .avaliacao {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+  
+  .avaliacao p {
+    margin: 5px 0;
+  }
+  /* ----------------------------------------------------------------CARROSSEL DO PORTIFOLIO */
+  .portfolio {
+    width: 960px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Espaço entre as imagens */
+    flex-wrap: wrap; /* Garante que as imagens se ajustem em dispositivos menores */
+    max-width: 100%;
+    align-items: center;
+  }
+  
+  .imagem {
+    width: 32%; /* Faz cada imagem ocupar 1/3 do espaço disponível */
+    overflow: hidden;
+    border-radius: 8%;
+    max-height: 320px;
+  }
+  
+  .imagem img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Garante que a imagem seja ajustada sem distorção */
+  }
+  
