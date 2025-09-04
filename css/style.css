@@ -1,0 +1,512 @@
+/* ===================================================
+   RESET E CONFIGURAÇÕES GLOBAIS
+   =================================================== */
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos base do body */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Parágrafos */
+p {
+    text-align: justify;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Containers principais */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+    font-size: 16px;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+/* ===================================================
+   HEADER E NAVEGAÇÃO
+   =================================================== */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
+.logo img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0;
+}
+
+.divdalogo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.logomarca {
+    max-height: 100%;
+    width: auto;
+}
+
+/* Navegação */
+.nav ul {
+    display: flex;
+    list-style: none;
+}
+
+.nav ul li {
+    margin-left: 20px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+    color: #000;
+}
+
+/* Botões especiais de navegação */
+.sejatec {
+    color: #fff;
+    background-color: #FF5722;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.sejatec:hover {
+    background-color: #E64A19;
+}
+
+.encontre {
+    color: #fff;
+    background-color: #007BFF;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.encontre:hover {
+    background-color: #0056b3;
+}
+
+/* ===================================================
+   BANNER PRINCIPAL
+   =================================================== */
+
+.banner {
+    background: url('../img/fundo_serviços.jpg') no-repeat center center/cover;
+    height: 100vh;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+}
+
+.banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+}
+
+.banner h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.banner p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+/* Botões do banner */
+.buttons {
+    gap: 20px;
+    align-items: center;
+}
+
+.btn {
+    text-decoration: none;
+    font-weight: bold;
+    padding: 15px 25px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.btn.blue {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+.btn.blue:hover {
+    background-color: #0056b3;
+}
+
+.btn.orange {
+    background-color: #FF5722;
+    color: #fff;
+}
+
+.btn.orange:hover {
+    background-color: #E64A19;
+}
+
+/* ===================================================
+   SEÇÃO SOBRE - MISSÃO, VISÃO, VALORES
+   =================================================== */
+
+.sections-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.section-container {
+    background-color: #0a5694;
+    padding: 18px;
+    flex: 1;
+    min-width: 250px;
+    border-radius: 8%;
+}
+
+.section-container h2 {
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+.section-container p, 
+.section-container ul {
+    color: white;
+    font-size: 18px;
+}
+
+.section-container ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+/* ===================================================
+   SEÇÃO DE TÉCNICOS
+   =================================================== */
+
+.tecnicos {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.tecnicos h2 {
+    text-align: center;
+    color: #0a5694;
+    margin: 20px;
+}
+
+.tecnico {
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tecnico img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.perfil {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px;
+}
+
+.info h3 {
+    margin: 0;
+    color: #333;
+}
+
+.info p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.ver-perfil {
+    align-self: flex-start;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #0a5694;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.ver-perfil:hover {
+    background-color: #083c6d;
+}
+
+/* ===================================================
+   PERFIL DO TÉCNICO (PÁGINA INDIVIDUAL)
+   =================================================== */
+
+.portifolio {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tecnicoPortifolio .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tecnicoPortifolio .header .logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.tecnicoPortifolio .header .detalhes {
+    flex: 1;
+}
+
+.tecnicoPortifolio .header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.botao-verde {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.botao-verde:hover {
+    background-color: #218838;
+}
+
+.sobre, 
+.classificacao, 
+.avaliacoes {
+    margin-bottom: 20px;
+}
+
+.sobre h3, 
+.classificacao h3, 
+.avaliacoes h3 {
+    margin-bottom: 10px;
+    color: #0a5694;
+}
+
+.classificacao p {
+    margin: 5px 0;
+}
+
+.estrelas {
+    color: #f4c542;
+}
+
+.avaliacao {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.avaliacao p {
+    margin: 5px 0;
+}
+
+/* Carrossel do portfólio */
+.portfolio {
+    width: 960px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    max-width: 100%;
+    align-items: center;
+}
+
+.imagem {
+    width: 32%;
+    overflow: hidden;
+    border-radius: 8%;
+    max-height: 320px;
+}
+
+.imagem img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* ===================================================
+   FOOTER
+   =================================================== */
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.footer .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.footer .links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer .links li {
+    margin: 10px 0;
+}
+
+.footer .links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.footer .links a:hover {
+    color: #ddd;
+}
+
+.footer .copyright {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #bbb;
+}
+
+/* ===================================================
+   RESPONSIVIDADE
+   =================================================== */
+
+@media (max-width: 768px) {
+    /* Banner */
+    .banner h1 {
+        font-size: 32px;
+    }
+
+    .banner p {
+        font-size: 16px;
+    }
+
+    /* Navegação */
+    .nav ul {
+        flex-direction: column;
+    }
+
+    .nav ul li {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    /* Seções Missão, Visão, Valores */
+    .sections-container {
+        flex-direction: column;
+    }
+
+    .section-container {
+        min-width: auto;
+        margin-bottom: 15px;
+    }
+
+    /* Footer */
+    .footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Carrossel */
+    .portfolio {
+        flex-direction: column;
+    }
+
+    .imagem {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}
