@@ -28,6 +28,12 @@
             <li>
                 <a href="/StartupSite/public/servico2.php" class="sejatec" style="color: #fff;">Seja um Técnico</a>
             </li>
+            <li>
+                <a href="/StartupSite/public/cadastro_tecnico.php">Cadastro</a>
+            </li>
+            <li>
+                <a href="/StartupSite/public/login.php">Login</a>
+            </li>
         </ul>
     </nav>
 </header>
