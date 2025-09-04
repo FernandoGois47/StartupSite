@@ -1,36 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AproximaTI</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-    <!-- Header -->
-<header class="header">
-    <div class="logo">
-        <a href="../html/index.html">
-            <img src="../img/logo_aproximati_comprido.png" alt="Logo Aproxima TI">
-        </a>
-    </div>
-    <nav class="nav">
-        <ul>
-            <li>
-                <a href="../html/home.html">Home</a>
-            </li>
-            <li>
-                <a href="../html/sobre.html">Sobre</a>
-            </li>
-            <li>
-                <a href="../html/servico1.html" class="encontre" style="color: #fff;">Encontre um Técnico</a>
-            </li>
-            <li>
-                <a href="../html/servico2.html" class="sejatec" style="color: #fff;">Seja um Técnico</a>
-            </li>
-        </ul>
-    </nav>
-</header>
+<?php include '../includes/header.php'?>
 
 <main>
     <!-- Container para Missão, Visão e Valores -->
@@ -101,22 +69,5 @@
 
 
 
-<!-------------------------------footer------------------------------------->
-<footer class="footer">
-    <div class="footer-logo">
-        <span class="logo">AproximaTI</span>
-    </div>
-        <ul class="links">
-            <li><a href="/sobre-nos">Sobre Nós</a></li>
-            <li><a href="/como-funciona">Como Funciona</a></li>
-            <li><a href="/fale-conosco">Fale Conosco</a></li>
-            <li><a href="/politica-privacidade">Política de Privacidade</a></li>
-            <li><a href="/termos-de-servico">Termos de Serviço</a></li>
-        </ul>
-        <div class="copyright">
-            &copy; 2024 AproximaTI. Todos os direitos reservados.
-        </div>
-</footer>
-<!-------------------------------footer------------------------------------->  
-</body>
-</html>
+
+<?php include '../includes/footer.php'?>

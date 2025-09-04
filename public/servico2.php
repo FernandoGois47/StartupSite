@@ -1,36 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AproximaTI</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-    <!-- Header -->
-<header class="header">
-    <div class="logo">
-        <a href="../html/index.html">
-            <img src="../img/logo_aproximati_comprido.png" alt="Logo Aproxima TI">
-        </a>
-    </div>
-    <nav class="nav">
-        <ul>
-            <li>
-                <a href="../html/home.html">Home</a>
-            </li>
-            <li>
-                <a href="../html/sobre.html">Sobre</a>
-            </li>
-            <li>
-                <a href="../html/servico1.html" class="encontre" style="color: #fff;">Encontre um Técnico</a>
-            </li>
-            <li>
-                <a href="../html/servico2.html" class="sejatec" style="color: #fff;">Seja um Técnico</a>
-            </li>
-        </ul>
-    </nav>
-</header>
+<?php include '../includes/header.php'?>
 
 <section class="portifolio">
     <div class="tecnicoPortifolio">
@@ -51,7 +19,6 @@
           Ao longo da minha trajetória, tive a oportunidade de colaborar com empresas renomadas, como Carrefour, Abril Cultural, Dasa Laboratórios e Citibank, sempre buscando excelência no atendimento e inovação nas soluções oferecidas.
         </p>
       </div>
-      <!-- ---------------------------------------------------------------------------carrossel -->
       <div class="portfolio">
             <div class="imagem">
                 <img src="../img/pc2.jpg" alt="Placa mãe suja">
@@ -63,8 +30,6 @@
                 <img src="../img/pc1.jpg" alt="Pc montado">
             </div>
       </div>
-      
-      <!-- ---------------------------------------------------------------------------carrossel -->   
       <div class="classificacao">
         <h3>Classificação</h3>
         <p><strong>5.00</strong> de 5</p>
@@ -92,25 +57,5 @@
       </div>
     </div>
 </section>
-  
 
-
-
-<!-------------------------------footer------------------------------------->
-<footer class="footer">
-    <div class="footer-logo">
-        <span class="logo">AproximaTI</span>
-    </div>
-        <ul class="links">
-            <li><a href="/sobre-nos">Sobre Nós</a></li>
-            <li><a href="/como-funciona">Como Funciona</a></li>
-            <li><a href="/fale-conosco">Fale Conosco</a></li>
-            <li><a href="/politica-privacidade">Política de Privacidade</a></li>
-            <li><a href="/termos-de-servico">Termos de Serviço</a></li>
-        </ul>
-        <div class="copyright">
-            &copy; 2024 AproximaTI. Todos os direitos reservados.
-        </div>
-</footer>
-</body>
-</html>
+<?php include '../includes/footer.php'?>
