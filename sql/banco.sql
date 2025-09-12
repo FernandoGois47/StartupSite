@@ -1,169 +1,159 @@
-CREATE TABLE `atendimentos` (
-  `id` int(11) NOT NULL,
-  `tecnico_id` int(11) NOT NULL,
-  `cliente_id` int(11) NOT NULL,
-  `servico_id` int(11) NOT NULL,
-  `data_atendimento` datetime DEFAULT NULL,
-  `status` enum('pendente','em_andamento','concluido','cancelado') DEFAULT 'pendente',
-  `observacoes` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS aproximati
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_general_ci;
 
-CREATE TABLE `avaliacoes` (
-  `id` int(11) NOT NULL,
-  `cliente_id` int(11) NOT NULL,
-  `tecnico_id` int(11) NOT NULL,
-  `nota` int(11) DEFAULT NULL CHECK (`nota` between 1 and 5),
-  `comentario` text DEFAULT NULL,
-  `data_avaliacao` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+USE aproximati;
 
-
-
-CREATE TABLE `contatos` (
-  `id` int(11) NOT NULL,
-  `cliente_id` int(11) NOT NULL,
-  `tecnico_id` int(11) NOT NULL,
-  `mensagem` text DEFAULT NULL,
-  `data_contato` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-CREATE TABLE `especializacoes` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `descricao` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `portfolio` (
-  `id` int(11) NOT NULL,
-  `tecnico_id` int(11) NOT NULL,
-  `titulo` varchar(100) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `imagem_url` varchar(255) DEFAULT NULL,
-  `data_publicacao` datetime DEFAULT current_timestamp(),
-  `data_envio` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-CREATE TABLE `servicos` (
-  `id` int(11) NOT NULL,
-  `tecnico_id` int(11) NOT NULL,
-  `titulo` varchar(100) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `preco` decimal(10,2) DEFAULT NULL,
-  `categoria` varchar(50) DEFAULT NULL,
-  `data_cadastro` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `tecnico_especializacao` (
-  `tecnico_id` int(11) NOT NULL,
-  `especializacao_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+-- =============================
+-- TABELA DE USUÁRIOS
+-- =============================
 CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `senha` varchar(255) NOT NULL,
-  `tipo` enum('tecnico','cliente') NOT NULL,
-  `telefone` varchar(20) DEFAULT NULL,
-  `cidade` varchar(100) DEFAULT NULL,
-  `estado` CHAR(2)  DEFAULT NULL,
-  `data_cadastro` datetime DEFAULT current_timestamp()
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
+  `tipo` ENUM('tecnico','cliente','admin') NOT NULL,
+  `telefone` VARCHAR(20) DEFAULT NULL,
+  `cidade` VARCHAR(100) DEFAULT NULL,
+  `estado` CHAR(2) DEFAULT NULL,
+  `foto_perfil` VARCHAR(255) DEFAULT NULL,
+  `data_cadastro` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE `atendimentos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `tecnico_id` (`tecnico_id`),
-  ADD KEY `cliente_id` (`cliente_id`),
-  ADD KEY `servico_id` (`servico_id`);
+-- =============================
+-- TABELA DE ESPECIALIZAÇÕES
+-- =============================
+CREATE TABLE `especializacoes` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `descricao` TEXT DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE `avaliacoes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cliente_id` (`cliente_id`),
-  ADD KEY `tecnico_id` (`tecnico_id`);
+-- =============================
+-- RELAÇÃO TÉCNICO x ESPECIALIZAÇÃO
+-- =============================
+CREATE TABLE `tecnico_especializacao` (
+  `tecnico_id` INT(11) NOT NULL,
+  `especializacao_id` INT(11) NOT NULL,
+  PRIMARY KEY (`tecnico_id`,`especializacao_id`),
+  KEY `especializacao_id` (`especializacao_id`),
+  CONSTRAINT `tecnico_especializacao_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `tecnico_especializacao_ibfk_2` FOREIGN KEY (`especializacao_id`) REFERENCES `especializacoes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- =============================
+-- TABELA DE CATEGORIAS DE SERVIÇOS
+-- =============================
+CREATE TABLE `categorias` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE `contatos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cliente_id` (`cliente_id`),
-  ADD KEY `tecnico_id` (`tecnico_id`);
+-- =============================
+-- TABELA DE SERVIÇOS
+-- =============================
+CREATE TABLE `servicos` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `tecnico_id` INT(11) NOT NULL,
+  `titulo` VARCHAR(100) NOT NULL,
+  `descricao` TEXT DEFAULT NULL,
+  `preco` DECIMAL(10,2) DEFAULT NULL,
+  `categoria_id` INT(11) DEFAULT NULL,
+  `tempo_estimado` VARCHAR(50) DEFAULT NULL,
+  `data_cadastro` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `tecnico_id` (`tecnico_id`),
+  KEY `categoria_id` (`categoria_id`),
+  CONSTRAINT `servicos_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `servicos_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- =============================
+-- TABELA DE ATENDIMENTOS
+-- =============================
+CREATE TABLE `atendimentos` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `tecnico_id` INT(11) NOT NULL,
+  `cliente_id` INT(11) NOT NULL,
+  `servico_id` INT(11) NOT NULL,
+  `data_atendimento` DATETIME DEFAULT NULL,
+  `data_conclusao` DATETIME DEFAULT NULL,
+  `status` ENUM('pendente','em_andamento','concluido','cancelado') DEFAULT 'pendente',
+  `observacoes` TEXT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tecnico_id` (`tecnico_id`),
+  KEY `cliente_id` (`cliente_id`),
+  KEY `servico_id` (`servico_id`),
+  CONSTRAINT `atendimentos_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `atendimentos_ibfk_2` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `atendimentos_ibfk_3` FOREIGN KEY (`servico_id`) REFERENCES `servicos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE `especializacoes`
-  ADD PRIMARY KEY (`id`);
+-- =============================
+-- TABELA DE AVALIAÇÕES
+-- =============================
+CREATE TABLE `avaliacoes` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `cliente_id` INT(11) NOT NULL,
+  `tecnico_id` INT(11) NOT NULL,
+  `atendimento_id` INT(11) NOT NULL,
+  `nota` INT(11) DEFAULT NULL CHECK (`nota` BETWEEN 1 AND 5),
+  `comentario` TEXT DEFAULT NULL,
+  `data_avaliacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `cliente_id` (`cliente_id`),
+  KEY `tecnico_id` (`tecnico_id`),
+  KEY `atendimento_id` (`atendimento_id`),
+  CONSTRAINT `avaliacoes_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `avaliacoes_ibfk_2` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `avaliacoes_ibfk_3` FOREIGN KEY (`atendimento_id`) REFERENCES `atendimentos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- =============================
+-- TABELA DE PORTFÓLIO
+-- =============================
+CREATE TABLE `portfolio` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `tecnico_id` INT(11) NOT NULL,
+  `titulo` VARCHAR(100) NOT NULL,
+  `descricao` TEXT DEFAULT NULL,
+  `imagem_url` VARCHAR(255) DEFAULT NULL,
+  `data_publicacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `tecnico_id` (`tecnico_id`),
+  CONSTRAINT `portfolio_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE `portfolio`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `tecnico_id` (`tecnico_id`);
+-- =============================
+-- TABELAS DE CHAT (CONVERSAS E MENSAGENS)
+-- =============================
+CREATE TABLE `conversas` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `cliente_id` INT(11) NOT NULL,
+  `tecnico_id` INT(11) NOT NULL,
+  `data_criacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `cliente_id` (`cliente_id`),
+  KEY `tecnico_id` (`tecnico_id`),
+  CONSTRAINT `conversas_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `conversas_ibfk_2` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE `mensagens` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `conversa_id` INT(11) NOT NULL,
+  `remetente_id` INT(11) NOT NULL,
+  `mensagem` TEXT NOT NULL,
+  `data_envio` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `conversa_id` (`conversa_id`),
+  KEY `remetente_id` (`remetente_id`),
+  CONSTRAINT `mensagens_ibfk_1` FOREIGN KEY (`conversa_id`) REFERENCES `conversas` (`id`),
+  CONSTRAINT `mensagens_ibfk_2` FOREIGN KEY (`remetente_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE `servicos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `tecnico_id` (`tecnico_id`);
-
-
-ALTER TABLE `tecnico_especializacao`
-  ADD PRIMARY KEY (`tecnico_id`,`especializacao_id`),
-  ADD KEY `especializacao_id` (`especializacao_id`);
-
-
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
-ALTER TABLE `atendimentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-
-ALTER TABLE `avaliacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-
-ALTER TABLE `contatos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-
-ALTER TABLE `especializacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
-
-ALTER TABLE `servicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
-
-ALTER TABLE `atendimentos`
-  ADD CONSTRAINT `atendimentos_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `atendimentos_ibfk_2` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `atendimentos_ibfk_3` FOREIGN KEY (`servico_id`) REFERENCES `servicos` (`id`);
-
-
-ALTER TABLE `avaliacoes`
-  ADD CONSTRAINT `avaliacoes_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `avaliacoes_ibfk_2` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`);
-
-
-ALTER TABLE `contatos`
-  ADD CONSTRAINT `contatos_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `contatos_ibfk_2` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`);
-
-ALTER TABLE `portfolio`
-  ADD CONSTRAINT `portfolio_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`);
-
-
-ALTER TABLE `servicos`
-  ADD CONSTRAINT `servicos_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`);
-
-
-ALTER TABLE `tecnico_especializacao`
-  ADD CONSTRAINT `tecnico_especializacao_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `tecnico_especializacao_ibfk_2` FOREIGN KEY (`especializacao_id`) REFERENCES `especializacoes` (`id`);
 COMMIT;

@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = ""; // padrão do XAMPP
-$dbname = "startupsite"; // nome do seu banco
+$dbname = "aproximati"; // nome do seu banco
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
