@@ -1,4 +1,4 @@
-<?php include '../includes/header.php'?>
+<?php include 'includes/header.php'?>
 
 <main>
     <section id="logomarca">
@@ -18,4 +18,4 @@
     </section>
 </main>
 
-<?php include '../includes/footer.php'?>
+<?php include 'includes/footer.php'?>

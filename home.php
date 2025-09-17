@@ -1,4 +1,4 @@
-<?php include '../includes/header.php'?>
+<?php include 'includes/header.php'?>
 
 <main>
     <!-- Container para Missão, Visão e Valores -->
@@ -70,4 +70,4 @@
 
 
 
-<?php include '../includes/footer.php'?>
+<?php include 'includes/footer.php'?>

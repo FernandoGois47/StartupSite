@@ -1,4 +1,4 @@
-<?php include '../includes/header.php'?>
+<?php include 'includes/header.php'?>
 
 <section class="tecnicos">
     <h2>3 Técnicos para Informática em Ponta Grossa</h2>
@@ -58,4 +58,4 @@
     </div>
 </section>
 
-<?php include '../includes/footer.php'?>
+<?php include 'includes/footer.php'?>
