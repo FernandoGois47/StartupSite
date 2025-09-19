@@ -1,3 +1,8 @@
+-- =============================
+-- SCRIPT DE CRIAÇÃO DO BANCO DE DADOS APROXIMATI
+-- Versão corrigida e organizada
+-- =============================
+
 -- Cria o banco de dados 'aproximati' se ele não existir
 CREATE DATABASE IF NOT EXISTS aproximati
   DEFAULT CHARACTER SET utf8mb4
@@ -7,9 +12,8 @@ CREATE DATABASE IF NOT EXISTS aproximati
 USE aproximati;
 
 -- =============================
--- TABELA DE USUÁRIOS (AJUSTADA)
+-- 1. TABELA DE USUÁRIOS
 -- =============================
--- Apaga a tabela 'usuarios' se ela já existir, para evitar conflitos
 DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -24,45 +28,36 @@ CREATE TABLE `usuarios` (
   `especialidade` VARCHAR(255) DEFAULT NULL COMMENT 'Campo simplificado para o CRUD inicial',
   `data_cadastro` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `email_unique` (`email`),
+  INDEX `idx_tipo` (`tipo`),
+  INDEX `idx_cidade_estado` (`cidade`, `estado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =============================
--- TABELA DE ESPECIALIZAÇÕES
+-- 2. TABELA DE ESPECIALIZAÇÕES
 -- =============================
 DROP TABLE IF EXISTS `especializacoes`;
 CREATE TABLE `especializacoes` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
   `descricao` TEXT DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome_unique` (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =============================
--- RELAÇÃO TÉCNICO x ESPECIALIZAÇÃO
--- =============================
-DROP TABLE IF EXISTS `tecnico_especializacao`;
-CREATE TABLE `tecnico_especializacao` (
-  `tecnico_id` INT(11) NOT NULL,
-  `especializacao_id` INT(11) NOT NULL,
-  PRIMARY KEY (`tecnico_id`,`especializacao_id`),
-  KEY `especializacao_id` (`especializacao_id`),
-  CONSTRAINT `tecnico_especializacao_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `tecnico_especializacao_ibfk_2` FOREIGN KEY (`especializacao_id`) REFERENCES `especializacoes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- =============================
--- TABELA DE CATEGORIAS DE SERVIÇOS
+-- 3. TABELA DE CATEGORIAS DE SERVIÇOS
 -- =============================
 DROP TABLE IF EXISTS `categorias`;
 CREATE TABLE `categorias` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome_unique` (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =============================
--- TABELA DE SERVIÇOS
+-- 4. TABELA DE SERVIÇOS
 -- =============================
 DROP TABLE IF EXISTS `servicos`;
 CREATE TABLE `servicos` (
@@ -75,14 +70,15 @@ CREATE TABLE `servicos` (
   `tempo_estimado` VARCHAR(50) DEFAULT NULL,
   `data_cadastro` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `tecnico_id` (`tecnico_id`),
-  KEY `categoria_id` (`categoria_id`),
-  CONSTRAINT `servicos_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `servicos_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE SET NULL
+  INDEX `idx_tecnico` (`tecnico_id`),
+  INDEX `idx_categoria` (`categoria_id`),
+  INDEX `idx_preco` (`preco`),
+  CONSTRAINT `fk_servicos_tecnico` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_servicos_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =============================
--- TABELA DE ATENDIMENTOS
+-- 5. TABELA DE ATENDIMENTOS
 -- =============================
 DROP TABLE IF EXISTS `atendimentos`;
 CREATE TABLE `atendimentos` (
@@ -94,17 +90,20 @@ CREATE TABLE `atendimentos` (
   `data_conclusao` DATETIME DEFAULT NULL,
   `status` ENUM('pendente','em_andamento','concluido','cancelado') DEFAULT 'pendente',
   `observacoes` TEXT DEFAULT NULL,
+  `data_criacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `tecnico_id` (`tecnico_id`),
-  KEY `cliente_id` (`cliente_id`),
-  KEY `servico_id` (`servico_id`),
-  CONSTRAINT `atendimentos_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `atendimentos_ibfk_2` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `atendimentos_ibfk_3` FOREIGN KEY (`servico_id`) REFERENCES `servicos` (`id`) ON DELETE CASCADE
+  INDEX `idx_tecnico` (`tecnico_id`),
+  INDEX `idx_cliente` (`cliente_id`),
+  INDEX `idx_servico` (`servico_id`),
+  INDEX `idx_status` (`status`),
+  INDEX `idx_data_atendimento` (`data_atendimento`),
+  CONSTRAINT `fk_atendimentos_tecnico` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_atendimentos_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_atendimentos_servico` FOREIGN KEY (`servico_id`) REFERENCES `servicos` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =============================
--- TABELA DE AVALIAÇÕES
+-- 6. TABELA DE AVALIAÇÕES
 -- =============================
 DROP TABLE IF EXISTS `avaliacoes`;
 CREATE TABLE `avaliacoes` (
@@ -112,20 +111,22 @@ CREATE TABLE `avaliacoes` (
   `cliente_id` INT(11) NOT NULL,
   `tecnico_id` INT(11) NOT NULL,
   `atendimento_id` INT(11) NOT NULL,
-  `nota` INT(11) DEFAULT NULL CHECK (`nota` BETWEEN 1 AND 5),
+  `nota` TINYINT(1) NOT NULL CHECK (`nota` BETWEEN 1 AND 5),
   `comentario` TEXT DEFAULT NULL,
   `data_avaliacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `cliente_id` (`cliente_id`),
-  KEY `tecnico_id` (`tecnico_id`),
-  KEY `atendimento_id` (`atendimento_id`),
-  CONSTRAINT `avaliacoes_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `avaliacoes_ibfk_2` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `avaliacoes_ibfk_3` FOREIGN KEY (`atendimento_id`) REFERENCES `atendimentos` (`id`) ON DELETE CASCADE
+  INDEX `idx_cliente` (`cliente_id`),
+  INDEX `idx_tecnico` (`tecnico_id`),
+  INDEX `idx_atendimento` (`atendimento_id`),
+  INDEX `idx_nota` (`nota`),
+  UNIQUE KEY `unique_avaliacao_atendimento` (`atendimento_id`),
+  CONSTRAINT `fk_avaliacoes_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_avaliacoes_tecnico` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_avaliacoes_atendimento` FOREIGN KEY (`atendimento_id`) REFERENCES `atendimentos` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =============================
--- TABELA DE PORTFÓLIO
+-- 7. TABELA DE PORTFÓLIO
 -- =============================
 DROP TABLE IF EXISTS `portfolio`;
 CREATE TABLE `portfolio` (
@@ -136,38 +137,83 @@ CREATE TABLE `portfolio` (
   `imagem_url` VARCHAR(255) DEFAULT NULL,
   `data_publicacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `tecnico_id` (`tecnico_id`),
-  CONSTRAINT `portfolio_ibfk_1` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+  INDEX `idx_tecnico` (`tecnico_id`),
+  INDEX `idx_data_publicacao` (`data_publicacao`),
+  CONSTRAINT `fk_portfolio_tecnico` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =============================
--- TABELAS DE CHAT (CONVERSAS E MENSAGENS)
+-- 8. TABELA DE CONVERSAS (CHAT)
 -- =============================
-DROP TABLE IF EXISTS `mensagens`;
 DROP TABLE IF EXISTS `conversas`;
 CREATE TABLE `conversas` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `cliente_id` INT(11) NOT NULL,
   `tecnico_id` INT(11) NOT NULL,
   `data_criacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `data_ultima_mensagem` DATETIME DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `cliente_id` (`cliente_id`),
-  KEY `tecnico_id` (`tecnico_id`),
-  CONSTRAINT `conversas_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `conversas_ibfk_2` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+  INDEX `idx_cliente` (`cliente_id`),
+  INDEX `idx_tecnico` (`tecnico_id`),
+  INDEX `idx_data_criacao` (`data_criacao`),
+  UNIQUE KEY `unique_conversa` (`cliente_id`, `tecnico_id`),
+  CONSTRAINT `fk_conversas_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_conversas_tecnico` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- =============================
+-- 9. TABELA DE MENSAGENS (CHAT)
+-- =============================
+DROP TABLE IF EXISTS `mensagens`;
 CREATE TABLE `mensagens` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `conversa_id` INT(11) NOT NULL,
   `remetente_id` INT(11) NOT NULL,
   `mensagem` TEXT NOT NULL,
   `data_envio` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `lida` BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`),
-  KEY `conversa_id` (`conversa_id`),
-  KEY `remetente_id` (`remetente_id`),
-  CONSTRAINT `mensagens_ibfk_1` FOREIGN KEY (`conversa_id`) REFERENCES `conversas` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `mensagens_ibfk_2` FOREIGN KEY (`remetente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+  INDEX `idx_conversa` (`conversa_id`),
+  INDEX `idx_remetente` (`remetente_id`),
+  INDEX `idx_data_envio` (`data_envio`),
+  INDEX `idx_lida` (`lida`),
+  CONSTRAINT `fk_mensagens_conversa` FOREIGN KEY (`conversa_id`) REFERENCES `conversas` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_mensagens_remetente` FOREIGN KEY (`remetente_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- =============================
+-- 10. TABELA DE RELAÇÃO TÉCNICO x ESPECIALIZAÇÃO
+-- =============================
+DROP TABLE IF EXISTS `tecnico_especializacao`;
+CREATE TABLE `tecnico_especializacao` (
+  `tecnico_id` INT(11) NOT NULL,
+  `especializacao_id` INT(11) NOT NULL,
+  `data_associacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`tecnico_id`, `especializacao_id`),
+  INDEX `idx_especializacao` (`especializacao_id`),
+  CONSTRAINT `fk_tecnico_especializacao_tecnico` FOREIGN KEY (`tecnico_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_tecnico_especializacao_especializacao` FOREIGN KEY (`especializacao_id`) REFERENCES `especializacoes` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- =============================
+-- TRIGGER PARA ATUALIZAR DATA_ULTIMA_MENSAGEM
+-- =============================
+DELIMITER $$
+CREATE TRIGGER `tr_atualiza_ultima_mensagem`
+AFTER INSERT ON `mensagens`
+FOR EACH ROW
+BEGIN
+  UPDATE `conversas` 
+  SET `data_ultima_mensagem` = NEW.`data_envio`
+  WHERE `id` = NEW.`conversa_id`;
+END$$
+DELIMITER ;
+
+-- =============================
+-- ÍNDICES COMPOSTOS ADICIONAIS PARA PERFORMANCE
+-- =============================
+ALTER TABLE `atendimentos` ADD INDEX `idx_tecnico_status` (`tecnico_id`, `status`);
+ALTER TABLE `atendimentos` ADD INDEX `idx_cliente_status` (`cliente_id`, `status`);
+ALTER TABLE `avaliacoes` ADD INDEX `idx_tecnico_nota` (`tecnico_id`, `nota`);
 
 COMMIT;
