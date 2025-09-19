@@ -15,7 +15,7 @@ $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
         <label>Nome:</label><br><input type="text" name="nome" value="<?= htmlspecialchars($usuario['nome']); ?>"><br>
         <label>Email:</label><br><input type="email" name="email" value="<?= htmlspecialchars($usuario['email']); ?>"><br>
         <label>Telefone:</label><br><input type="text" name="telefone" value="<?= htmlspecialchars($usuario['telefone']); ?>"><br>
-        
+
         <?php if ($usuario['tipo'] === 'tecnico'): ?>
             <label>Especialidade:</label><br><input type="text" name="especialidade" value="<?= htmlspecialchars($usuario['especialidade']); ?>"><br>
         <?php endif; ?>
