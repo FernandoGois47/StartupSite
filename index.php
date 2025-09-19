@@ -1,6 +1,7 @@
-<?php include 'includes/header.php'?>
+<?php 
+include 'includes/header.php'
+?>
 
-<!-- Banner Section -->
 <div class="banner">
     <div class="banner-content">
         <h1>Conecte-se com os Melhores Profissionais de TI!</h1>
@@ -12,4 +13,6 @@
     </div>
 </div>
 
-<?php include 'includes/footer.php'?>
+<?php 
+include 'includes/footer.php'
+?>

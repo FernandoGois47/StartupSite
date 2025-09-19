@@ -1,21 +1,19 @@
-<?php include 'includes/header.php'?>
+<?php 
+include 'includes/header.php'
+?>
 
 <main>
-    <!-- Container para Missão, Visão e Valores -->
     <div class="sections-container">
-        <!-- Missão -->
         <div class="section-container" id="missao">
             <h2>Missão</h2><br>
             <p>A nossa missão é aproximar técnicos de informática qualificados a clientes que necessitam de serviços de informática, proporcionando uma experiência fácil, rápida e segura para ambos os lados.</p>
         </div>
 
-        <!-- Visão -->
         <div class="section-container" id="visao">
             <h2>Visão</h2><br>
             <p>Ser a principal plataforma em Ponta Grossa para aproximar clientes e técnicos de informática, reconhecida pela qualidade, confiança e inovação.</p>
         </div>
 
-        <!-- Valores -->
         <div class="section-container" id="valores">
             <h2>Valores</h2><br>
             <ul>
@@ -25,6 +23,7 @@
             </ul>
         </div>
     </div><br>
+    
     <section id="logomarca">
         <h1>
             Logo marca
@@ -59,15 +58,8 @@
                 Com uma proposta inovadora, buscamos não apenas conectar profissionais e clientes, mas também contribuir para a valorização e profissionalização do setor de tecnologia.
             </p><br>
     </section>
-    
-
 </main>
 
-
-
-
-
-
-
-
-<?php include 'includes/footer.php'?>
+<?php 
+include 'includes/footer.php'
+?>
